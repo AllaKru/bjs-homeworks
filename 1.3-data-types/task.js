@@ -1,5 +1,7 @@
 "use strict";
 function calculateTotalMortgage(percent, contribution, amount, date) {
+    // код для задачи №1 писать здесь
+    // return totalAmount;
   if (isNaN(parseFloat(percent))) {
     return `Параметр "Процентная ставка" содержит неправильное значение ${percent}.`;
   } else if (isNaN(parseFloat(contribution))) {
@@ -22,6 +24,9 @@ function calculateTotalMortgage(percent, contribution, amount, date) {
 }
 
 function getGreeting(name) {
+    // код для задачи №2 писать здесь
+    // return greeting;
+
   if (!name || name === "null" || name === "undefined") {
     name = "Аноним";
   }
