@@ -28,29 +28,27 @@ function showSolutionsMessage(a, b, c) {
   }
 }
 //Задача 2
+// let inputData = {
+//   algebra : [4, 5, 5, 4],
+//   geometry : [2, 5],
+//   russian : [3, 3, 4, 5],
+//   physics : [5, 5],
+//   music : [ 2, 2, 5],
+//   english : [4, 4, 3, 3],
+//   poetry : [5, 3, 4],
+//   chemistry : [2],
+//   french : [4, 4]
+// };
 function getAverageScore(data) {
-  // let inputData = {
-  //   algebra : [4, 5, 5, 4],
-  //   geometry : [2, 5],
-  //   russian : [3, 3, 4, 5],
-  //   physics : [5, 5],
-  //   music : [ 2, 2, 5],
-  //   english : [4, 4, 3, 3],
-  //   poetry : [5, 3, 4],
-  //   chemistry : [2],
-  //   french : [4, 4]
-  // };
   let avgData = {};
   let avr = [];
   let average;
+
   for (let prop in data) {
     avr.push(getAverageMark(data[prop]));
-    avgData.average = getAverageMark(avr);
     avgData[prop] = getAverageMark(data[prop]);
-    // if (avgData[prop].length === 0) {
-    //   return 0;
-    // }
   }
+  avgData.average = getAverageMark(avr);
   return avgData;
 }
 
