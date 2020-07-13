@@ -106,48 +106,60 @@ const library = new Library("Библиотека имени Ленина");
 class StudentLog {
   constructor(name) {
     this.name = name;
-    this.algebra = new Array();
-    this.geometry = new Array();
+    this.avgData = new Object();
   }
   getName() {
     return this.name;
   }
+
+  // addGrade(grade, subject) {
+  //   if (grade < 1 || grade > 5 || isNaN(grade)) {
+  //     console.log(
+  //       `Вы пытались поставить оценку "${grade}" по предмету "${subject}". Допускаются только числа от 1 до 5.`
+  //     );
+  //     return this.avgData[subject].length;
+  //   } else {
+  //     this.avgData[subject] = [];
+  //     for (let subject in this.avgData) {
+  //       this.avgData[subject].push(grade);
+  //     }
+  //   }
+  //   return this.avgData[subject].length;
+  // }
+
   addGrade(grade, subject) {
-    if (this[subject] === undefined) {
+    
+    if (grade < 1 || grade > 5 || isNaN(grade)) {
       console.log(
         `Вы пытались поставить оценку "${grade}" по предмету "${subject}". Допускаются только числа от 1 до 5.`
       );
-      return 0;
-    } else if (grade < 1 || grade > 5) {
-      // не работает isNaN(this.grade)
-       // работает isNaN(grade)
-      console.log(
-        `Вы пытались поставить оценку "${grade}" по предмету "${subject}". Допускаются только числа от 1 до 5.`
-      );
-      return this[subject].length;
-    } else this[subject].push(grade);
-    return this[subject].length;
+    } else {
+      this.avgData[subject] = [];
+      this.avgData[subject].push(grade);
+    }
+    return this.avgData[subject].length;
   }
   getAverageBySubject(subject) {
     let summ = 0;
-    if (this[subject] === undefined) {
-      return 0;
+    for (let subject in this.avgData) {
+      if (this.avgData[subject] === undefined) {
+        return 0;
+      }
+      for (let i = 0; i < this.avgData[subject].length; i++) {
+        summ += this.avgData[subject][i];
+      }
+      return summ / this.avgData[subject].length;
     }
-    for (let i = 0; i < this[subject].length; i++) {
-      summ += this[subject][i];
-    }
-
-    return summ / this[subject].length;
   }
   getTotalAverage() {
     let summAver = 0;
     let count = 0;
 
-    for (let subject in this) {
-      if (Array.isArray(this[subject])) {
+    for (let subject in this.avgData) {
+      if (Array.isArray(this.avgData[subject])) {
         count++;
         summAver += this.getAverageBySubject(subject); // this[subject] - не сработало
-      } else if (this[subject].length === 0) {
+      } else if (this.avgData[subject].length === 0) {
         return 0;
       }
     }
