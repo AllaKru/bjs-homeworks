@@ -128,29 +128,37 @@ class StudentLog {
   // }
 
   addGrade(grade, subject) {
-    
     if (grade < 1 || grade > 5 || isNaN(grade)) {
       console.log(
         `Вы пытались поставить оценку "${grade}" по предмету "${subject}". Допускаются только числа от 1 до 5.`
       );
-    } else {
+    } else if (this.avgData[subject] === undefined) {
       this.avgData[subject] = [];
+      this.avgData[subject].push(grade); //Без этой проверки получается так,
+      //  что каждый раз при добавлении новой оценки масси
+      //  в под оценки создаётся заново и старая информация затирается.
+    } else {
       this.avgData[subject].push(grade);
     }
     return this.avgData[subject].length;
   }
   getAverageBySubject(subject) {
     let summ = 0;
-    for (let subject in this.avgData) {
-      if (this.avgData[subject] === undefined) {
-        return 0;
-      }
-      for (let i = 0; i < this.avgData[subject].length; i++) {
-        summ += this.avgData[subject][i];
-      }
-      return summ / this.avgData[subject].length;
+    //Это условие никогда не будет выполняться, потому что цикл for (let subject in this.avgData) { } шагает только по существующим
+    //  свойствам объектам this.avgData. 0 никогда не будет возвращён.
+    //Т.к. мы всё ещё на первом шаге цикла for (let subject in this.avgData) { }, то указанный выше код считает оценку по первому предмету, возвращает её и всё, программа завершает работу,
+    //так никогда и не добравшись до второго предмета и всех последующих.
+    //Что делать? Убрать цикл, так как он вовсе не нужен. По ключу this.avgData[subject] вы можете и проверить наличие
+    //оценок по предмету как таковое, и перебрать массив этих оценок.
+    if (this.avgData[subject] === undefined) {
+      return 0;
     }
+    for (let i = 0; i < this.avgData[subject].length; i++) {
+      summ += this.avgData[subject][i];
+    }
+    return summ / this.avgData[subject].length;
   }
+
   getTotalAverage() {
     let summAver = 0;
     let count = 0;
