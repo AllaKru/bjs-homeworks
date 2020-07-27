@@ -1,6 +1,8 @@
 function sleep(milliseconds) {
   let e = new Date().getTime() + milliseconds;
-  while (new Date().getTime() <= e) {}
+  while (new Date().getTime() <= e) {
+    return e++;
+  }
 }
 function sum(...args) {
   // Замедление на половину секунды.
@@ -22,20 +24,22 @@ function memorize(fn, limit) {
   return (...args) => {
     let object = {};
     object.args = [];
-    object.result = fn(...args);
 
-    const obj1 = memory.find(function find(object) {
-      if (compareArrays(args, object.args)) {
-        return object;
-      }
-    });
-    if (obj1 === undefined) {
-      object.args.push(...args);
-      memory.push(object);
-      if (memory.length > limit) {
-        memory.shift();
-      }
-      return object.result;
-    } else return obj1.result;
+    const searchResult = memory.find((object) =>
+      compareArrays(args, object.args)
+    );
+    if (searchResult) {
+      return searchResult.result;
+    }
+    // object.args.push(...args);
+    object.args = args;
+    memory.push(object);
+    object.result = fn(...args);
+    if (memory.length > limit) {
+      memory.shift();
+    }
+    return object.result;
   };
 }
+
+const mSum = memorize(sum, 5);
